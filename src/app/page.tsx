@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { ProductGrid } from "@/components/ProductGrid"
 import { Badge } from "@/components/ui/Badge"
+import { PromoBanner } from "@/components/PromoBanner"
 import Link from "next/link"
 
 const categories = [
@@ -29,6 +30,7 @@ export default async function Home({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <PromoBanner />
       <section className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Tazas para programadores

@@ -18,3 +18,7 @@
 - **`build`**: Usar para refactorización, creación de nuevos componentes y lógica de negocio.
 - **`plan`**: Usar antes de cualquier tarea compleja.
 - **`explore`**: Usar para analizar el estado actual del proyecto (ej. "¿Cómo está implementado el carrito?").
+
+# Reglas de fichero 
+
+- Cada nuevo que crees lo vasa crear en CamelCase
