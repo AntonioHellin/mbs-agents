@@ -1,65 +1,90 @@
-import Image from "next/image";
+import { prisma } from "@/lib/prisma"
+import { ProductGrid } from "@/components/ProductGrid"
+import { Badge } from "@/components/ui/Badge"
+import Link from "next/link"
 
-export default function Home() {
+const categories = [
+  { slug: "humor", label: "Humor" },
+  { slug: "lenguajes", label: "Lenguajes" },
+  { slug: "sistemas", label: "Sistemas" },
+  { slug: "herramientas", label: "Herramientas" },
+]
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ categoria?: string }>
+}) {
+  const { categoria } = await searchParams
+
+  const products = await prisma.product.findMany({
+    where: categoria ? { category: categoria } : undefined,
+    orderBy: { createdAt: "desc" },
+  })
+
+  const featured = await prisma.product.findMany({
+    where: { featured: true },
+    take: 3,
+  })
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <section className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          Tazas para programadores
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          La mejor colección de tazas temáticas para desarrolladores. Elige tu lenguaje, framework o meme favorito.
+        </p>
+      </section>
+
+      {!categoria && featured.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Destacados</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {featured.map((product) => (
+              <Link
+                key={product.id}
+                href={`/products/${product.id}`}
+                className="group relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow p-6"
+              >
+                <Badge variant="warning" className="absolute top-3 right-3">Destacado</Badge>
+                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-1">
+                  {product.name}
+                </h3>
+                <p className="text-sm text-gray-500 mb-2 line-clamp-1">{product.description}</p>
+                <span className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section>
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <span className="text-sm font-medium text-gray-700">Filtrar:</span>
+          <Link
+            href="/"
+            className={`px-3 py-1 rounded-full text-sm ${!categoria ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Todas
+          </Link>
+          {categories.map((cat) => (
+            <Link
+              key={cat.slug}
+              href={`/?categoria=${cat.slug}`}
+              className={`px-3 py-1 rounded-full text-sm ${categoria === cat.slug ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+            >
+              {cat.label}
+            </Link>
+          ))}
         </div>
-      </main>
+        {products.length === 0 ? (
+          <p className="text-gray-500 text-center py-12">No hay productos en esta categoría</p>
+        ) : (
+          <ProductGrid products={products} />
+        )}
+      </section>
     </div>
-  );
+  )
 }
