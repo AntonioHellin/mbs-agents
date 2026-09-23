@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ MBS Agent Store (`mbs-agent-store`)
 
-## Getting Started
+A modern, full-stack e-commerce catalog application built with Next.js 16 App Router, React 19, Tailwind CSS v4, Prisma ORM with SQLite, and Zustand global state management.
 
-First, run the development server:
+---
 
+## Project Overview
+
+**MBS Agent Store** showcases an agent-friendly, modular architecture for web commerce applications. Built on Next.js 16 Server Components and Server Actions, it enforces strict separation between presentation and data mutation with complete type safety.
+
+### Repository Naming Analysis
+- **Recommended Repository Name**: `mbs-agent-store`
+- **Naming Formula**: **Formula A** (`[domain/product]-[core-function]`)
+- **Rationale**: Disambiguates `mbs-agents` into a clean kebab-case name specifying product line (`mbs`) and core functionality (`agent-store`).
+
+---
+
+## Features
+
+- **Next.js 16 App Router**: Hybrid rendering using React Server Components for fast content delivery.
+- **Server Actions Persistence**: Data mutations executed through secure server actions in `src/lib/actions/`.
+- **Prisma & SQLite**: Schema-first database workflow with zero-config local SQLite persistence.
+- **Tailwind CSS v4**: Bleeding-edge CSS styling via `@import "tailwindcss"` with zero runtime overhead.
+- **Zustand State Store**: Lightweight, predictable client-side state management for shopping carts and preferences.
+- **Agent Architectural Guidelines**: Standardized rules defined in `AGENTS.md` for AI pair-programming and autonomous workflows.
+
+---
+
+## Prerequisites
+
+- **Node.js**: `>= 18.18.0`
+- **Package Manager**: `npm`, `pnpm`, or `yarn`
+
+---
+
+## Installation and Setup
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Initialize the Database
+Generate Prisma client artifacts and push the schema to SQLite:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Seed Sample Data (Optional)
+```bash
+npm run db:seed
+```
 
-## Learn More
+### 5. Start Development Server
+```bash
+npm run dev
+```
+Open `http://localhost:3000` in your web browser.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Database Management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Manage the local database with built-in scripts:
+- **Prisma Studio (Web GUI)**: `npm run db:studio`
+- **Generate Client**: `npm run db:generate`
+- **Push Schema Changes**: `npm run db:push`
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Defensive Security Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Server-Side Mutation Guard**: All create, update, and delete operations execute via authenticated Server Actions, avoiding client-side exposure of database credentials.
+- **Parameterized Database Access**: Prisma translates all queries into parameterized SQL, eliminating SQL injection vectors.
+- **Local Database Isolation**: SQLite database binaries (`prisma/dev.db`, `*.db-journal`) and environment keys are strictly excluded from version control.
+
+---
+
+## License
+
+Proprietary. All rights reserved. Not licensed for redistribution, public sublicensing, or resale.

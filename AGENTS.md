@@ -1,32 +1,32 @@
 # AGENTS.md
 
-## Reglas de Desarrollo
+## Development Guidelines
 - **Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS v4, Prisma + SQLite, Zustand.
-- **Flujo de CRUD:** Usar siempre **Server Actions** (`src/lib/actions/`) para cualquier modificación de datos.
-- **Componentes:**
-  - Componentes UI básicos (Button, Badge) en `src/components/ui/`.
-  - Componentes de lógica en `src/components/`.
-- **Base de Datos:** Prisma + SQLite. El cliente se genera en `src/lib/generated/` para evitar conflictos con Turbopack en Windows.
-- **Estilos:** Tailwind CSS. Mantener el diseño limpio y minimalista.
+- **CRUD Operations:** Always use **Server Actions** (`src/lib/actions/`) for any data modifications.
+- **Components:**
+  - Base UI components (Button, Badge) in `src/components/ui/`.
+  - Logic and layout components in `src/components/`.
+- **Database:** Prisma + SQLite. The client is generated in `src/lib/generated/` to prevent Turbopack conflicts on Windows.
+- **Styling:** Tailwind CSS. Maintain clean, minimalistic UI design.
 
-## Convenciones de Nomenclatura
-- **Archivos:** Siempre en `CamelCase` (ej. `UserProfile.tsx`, `AuthService.ts`).
-- **Funciones:** Siempre en `CamelCase` (ej. `getUserData()`, `validateInput()`).
-- **Variables de Clase (Miembros):** Usar el prefijo `m_` seguido de `snake_case` (ej. `m_user_id`, `m_is_authenticated`).
-- **Variables Locales:** Usar `snake_case` (ej. `current_user`, `is_active`).
+## Naming Conventions
+- **Files:** UpperCamelCase (e.g., `UserProfile.tsx`, `AuthService.ts`).
+- **Functions:** camelCase (e.g., `getUserData()`, `validateInput()`).
+- **Class Member Variables:** Prefix with `m_` followed by `snake_case` (e.g., `m_user_id`, `m_is_authenticated`).
+- **Local Variables:** `snake_case` (e.g., `current_user`, `is_active`).
 
-## Arquitectura y Calidad
-- **Principio de Responsabilidad Única:** Cada componente o función debe tener un único propósito claro.
-- **Tipado:** Uso estricto de TypeScript. Evitar `any` a toda costa.
-- **Comentarios:** Deben explicar el "por qué" y no el "qué". Código limpio es preferible a comentarios explicativos.
-- **Server Actions:** Toda lógica de datos debe residir exclusivamente en `src/lib/actions/`.
+## Architecture and Quality
+- **Single Responsibility Principle:** Each component or function must have a clear, isolated responsibility.
+- **Type Safety:** Strict TypeScript adherence. Avoid `any` under all circumstances.
+- **Comments:** Document the "why", not the "what". Clean, self-documenting code is preferred over redundant commentary.
+- **Server Actions:** All persistence logic must reside exclusively inside `src/lib/actions/`.
 
-## Flujo de Trabajo
-1. **Verificación:** Antes de cada commit o build, ejecutar `npm run lint`.
-2. **Base de Datos:** Para cambios en el schema (`prisma/schema.prisma`), ejecutar siempre `npx prisma db push`.
-3. **Estilos:** Usar Tailwind v4 (vía `@import "tailwindcss";` en `globals.css`).
+## Workflow
+1. **Verification:** Run `npm run lint` before any commit or production build.
+2. **Database Schema:** Execute `npx prisma db push` whenever `prisma/schema.prisma` is modified.
+3. **Styles:** Tailwind v4 (via `@import "tailwindcss";` in `globals.css`).
 
-## Agentes Disponibles
-- **`build`**: Usar para refactorización, creación de nuevos componentes y lógica de negocio.
-- **`plan`**: Usar antes de cualquier tarea compleja.
-- **`explore`**: Usar para analizar el estado actual del proyecto (ej. "¿Cómo está implementado el carrito?").
+## Available Agents
+- **`build`**: Code refactoring, feature implementation, and business logic.
+- **`plan`**: Architectural design and dependency decomposition before complex tasks.
+- **`explore`**: Codebase surveying and architectural analysis (e.g., inspect cart state or product routes).
