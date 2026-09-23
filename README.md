@@ -1,4 +1,4 @@
-# 🛍️ MBS Agent Store (`mbs-agent-store`)
+# 🛍️ MBS Agent Store
 
 A modern, full-stack e-commerce catalog application built with Next.js 16 App Router, React 19, Tailwind CSS v4, Prisma ORM with SQLite, and Zustand global state management.
 
@@ -7,11 +7,6 @@ A modern, full-stack e-commerce catalog application built with Next.js 16 App Ro
 ## Project Overview
 
 **MBS Agent Store** showcases an agent-friendly, modular architecture for web commerce applications. Built on Next.js 16 Server Components and Server Actions, it enforces strict separation between presentation and data mutation with complete type safety.
-
-### Repository Naming Analysis
-- **Recommended Repository Name**: `mbs-agent-store`
-- **Naming Formula**: **Formula A** (`[domain/product]-[core-function]`)
-- **Rationale**: Disambiguates `mbs-agents` into a clean kebab-case name specifying product line (`mbs`) and core functionality (`agent-store`).
 
 ---
 
