@@ -77,7 +77,3 @@ Manage the local database with built-in scripts:
 - **Local Database Isolation**: SQLite database binaries (`prisma/dev.db`, `*.db-journal`) and environment keys are strictly excluded from version control.
 
 ---
-
-## License
-
-Proprietary. All rights reserved. Not licensed for redistribution, public sublicensing, or resale.
